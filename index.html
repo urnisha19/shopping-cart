@@ -16,8 +16,11 @@
       <div class="container">
          <div class="cart">
             <div class="col-md-12 col-lg-10 mx-auto">
+
+               <!-- product 1 -->
                <div class="cart-item">
                   <div class="row">
+
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
                         <h5>iPhone 11 128GB Black</h5>
@@ -25,35 +28,46 @@
 
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
+                           <button onclick="handleProductQuantityChange('phone',false)" class="btn btn-default"><i
+                                 class="fas fa-minus"></i></button>
+                           <input id="phone-quantity" type="text" class=" form-control text-center" value="1">
+                           <button onclick="handleProductQuantityChange('phone',true)" class=" btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$1219</h5>
+                        <h5>$ <span id="phone-total-price">1219</span> </h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
+
                   </div>
                </div>
+               <!-- end product 1 -->
 
+               <!-- product 2-->
                <div class="cart-item">
                   <div class="row">
+
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
                         <h5>iPhone 11 Silicone Case - Black</h5>
                      </div>
+
                      <div class="col-md-5 center-item">
                         <div class="input-group number-spinner">
-                           <button class="btn btn-default"><i class="fas fa-minus"></i></button>
-                           <input type="text" class="form-control text-center" value="1">
-                           <button class="btn btn-default"><i class="fas fa-plus"></i></button>
-
+                           <button onclick="handleProductQuantityChange('case',false)" class="minus btn btn-default"><i
+                                 class="fas fa-minus"></i></button>
+                           <input id="case-quantity" type="text" class="item-number form-control text-center" value="1">
+                           <button onclick="handleProductQuantityChange('case',true)" class="plus btn btn-default"><i
+                                 class="fas fa-plus"></i></button>
                         </div>
-                        <h5>$59</h5>
+                        <h5>$ <span id="case-total-price">59</span></h5>
                         <img src="images/remove.png" alt="" class="remove-item">
                      </div>
+
                   </div>
                </div>
+               <!-- end product 2 -->
 
+               <!-- calculate all product -->
                <div class="cart-item">
                   <div class="row">
 
@@ -64,19 +78,73 @@
                      </div>
 
                      <div class="col-md-4 status">
-                        <h5>$1,278</h5>
-                        <h5>$0</h5>
-                        <h5>$1,278</h5>
+                        <h5>$ <span id="subtotal-price">1,278</span> </h5>
+                        <h5>$ <span id="tax-amount">0</span>
+                        </h5>
+                        <h5>$ <span id="grand-total">1,278</span> </h5>
                      </div>
+
                   </div>
                </div>
+
                <div class="col-md-12 pt-4 pb-4">
                   <button type="button" class="btn btn-success check-out">Check Out</button>
                </div>
+
             </div>
          </div>
       </div>
    </section>
+
+   <script>
+      //handle product input quantity
+      function getInputValue(product) {
+         const productInput = document.getElementById(product + '-quantity');
+         const productQuantity = parseInt(productInput.value);
+         return productQuantity;
+      }
+
+      //handle product quantity increment decrement and price
+      function handleProductQuantityChange(product, isIncrease) {
+         // quantity
+         const productQuantity = getInputValue(product);
+         let productNewQuantity = productQuantity;
+         if (isIncrease == true) {
+            productNewQuantity = productQuantity + 1;
+         }
+         if (isIncrease == false && productQuantity > 0) {
+            productNewQuantity = productQuantity - 1;
+         }
+         document.getElementById(product + '-quantity').value = productNewQuantity;
+
+         // price
+         let productTotalPrice = 0;
+         if (product == 'phone') {
+            productTotalPrice = productNewQuantity * 1219;
+         }
+         if (product == 'case') {
+            productTotalPrice = productNewQuantity * 59;
+         }
+         document.getElementById(product + '-total-price').innerText = productTotalPrice;
+         calculateTotal();
+      }
+
+      //handle all products calculation
+      function calculateTotal() {
+         const phoneQuantity = getInputValue('phone');
+         const caseQuantity = getInputValue('case');
+
+         const subTotalPrice = phoneQuantity * 1219 + caseQuantity * 59;
+         document.getElementById('subtotal-price').innerText = subTotalPrice;
+
+         const tax = Math.round(subTotalPrice * 0.1);
+         document.getElementById('tax-amount').innerText = tax;
+
+         const grandTotal = subTotalPrice + tax;
+         document.getElementById('grand-total').innerText = grandTotal;
+
+      }
+   </script>
 </body>
 
 </html>
