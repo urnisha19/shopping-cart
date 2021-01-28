@@ -18,7 +18,7 @@
             <div class="col-md-12 col-lg-10 mx-auto">
 
                <!-- product 1 -->
-               <div class="cart-item">
+               <div id="product-phone" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item">
                         <img src="images/product-1.png" alt="">
@@ -33,14 +33,14 @@
                                  class="fas fa-plus"></i></button>
                         </div>
                         <h5>$ <span id="phone-total-price">1219</span> </h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <img onclick="removeItem('phone')" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
                <!-- end product 1 -->
 
                <!-- product 2-->
-               <div class="cart-item">
+               <div id="product-case" class="cart-item">
                   <div class="row">
                      <div class="col-md-7 center-item mx-auto">
                         <img src="images/product-2.png" alt="">
@@ -55,7 +55,7 @@
                                  class="fas fa-plus"></i></button>
                         </div>
                         <h5>$ <span id="case-total-price">59</span></h5>
-                        <img src="images/remove.png" alt="" class="remove-item">
+                        <img onclick="removeItem('case')" src="images/remove.png" alt="" class="remove-item">
                      </div>
                   </div>
                </div>
@@ -132,7 +132,18 @@
 
          const grandTotal = subTotalPrice + tax;
          document.getElementById('grand-total').innerText = grandTotal;
+      }
 
+      //handle cross button
+      function removeItem(product) {
+         const removeItem = document.getElementById('product-' + product);
+         removeItem.style.display = "none";
+         if(product == 'phone'){
+            handleProductQuantityChange('phone',false);
+         }
+         if(product == 'case'){
+            handleProductQuantityChange('case',false);
+         }       
       }
    </script>
 </body>
